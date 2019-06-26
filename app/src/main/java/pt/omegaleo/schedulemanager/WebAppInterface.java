@@ -26,7 +26,7 @@ public class WebAppInterface {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "default")
                 .setContentTitle("Schedule Manager")
                 .setContentText(msg)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 

@@ -54,7 +54,7 @@ public class WebViewService extends Service {
         mWebView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         mWebView.setWebViewClient(new WebViewClient());
-        
+
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAppCacheEnabled(true);
@@ -82,13 +82,11 @@ public class WebViewService extends Service {
         notificationManager.createNotificationChannel(channel2);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.context,"maxPriority")
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_notification)
                         .setOngoing(true)
                         .setContentTitle("Schedule Manager")
                         .setContentText("Schedule Manager is running in background!")
                         .setPriority(NotificationCompat.PRIORITY_MAX);
-
-        builder.setDefaults(Notification.FLAG_NO_CLEAR);
 
         NotificationManagerCompat notificationManagerComp = NotificationManagerCompat.from(MainActivity.context);
         notificationManagerComp.notify(1, builder.build());
