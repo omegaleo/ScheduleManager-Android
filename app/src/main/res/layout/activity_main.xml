@@ -18,11 +18,14 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" >
-            <Button
+            <pt.omegaleo.schedulemanager.FontAwesomeButton
                 android:id="@+id/btn_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Refresh" />
+                android:background="#00FFFFFF"
+                android:layout_gravity="end"
+                android:fontFamily="@font/fontawesome_font"
+                android:text="@string/refreshCode" />
 
         </androidx.appcompat.widget.Toolbar>
 

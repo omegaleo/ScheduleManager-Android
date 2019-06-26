@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ScheduleManager</string>
+    <string name="refreshCode">\uF2f9</string>
 </resources>
