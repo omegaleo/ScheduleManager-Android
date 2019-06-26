@@ -36,6 +36,10 @@ public class WebViewService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, PixelFormat.TRANSLUCENT);
@@ -82,18 +86,23 @@ public class WebViewService extends Service {
         notificationManager.createNotificationChannel(channel2);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.context,"maxPriority")
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setOngoing(true)
-                        .setContentTitle("Schedule Manager")
-                        .setContentText("Schedule Manager is running in background!")
-                        .setPriority(NotificationCompat.PRIORITY_MAX);
+                .setSmallIcon(R.drawable.ic_notification)
+                .setOngoing(true)
+                .setContentTitle("Schedule Manager")
+                .setContentText("Schedule Manager is running in background!")
+                .setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManagerCompat notificationManagerComp = NotificationManagerCompat.from(MainActivity.context);
         notificationManagerComp.notify(1, builder.build());
+        return START_STICKY;
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    public void onTaskRemoved(Intent rootIntent) {
+
+        //When remove app from background then start it again
+        startService(new Intent(this, WebViewService.class));
+
+        super.onTaskRemoved(rootIntent);
     }
 }

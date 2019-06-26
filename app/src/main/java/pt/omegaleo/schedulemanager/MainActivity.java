@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,5 +38,13 @@ public class MainActivity extends AppCompatActivity {
         mWebView.addJavascriptInterface(new WebAppInterface(MainActivity.context),"Android");
 
         mWebView.loadUrl("https://schedule-manager.omegaleo.pt");
+
+        Button btnRefresh = findViewById(R.id.btn_refresh);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebView.reload();
+            }
+        });
     }
 }
