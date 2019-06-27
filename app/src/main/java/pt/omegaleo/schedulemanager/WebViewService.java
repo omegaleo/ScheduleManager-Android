@@ -1,5 +1,6 @@
 package pt.omegaleo.schedulemanager;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -76,7 +77,7 @@ public class WebViewService extends Service {
 
         NotificationChannel channel2 = new NotificationChannel("maxPriority",
                 "ScheduleManager",
-                NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationManager.IMPORTANCE_HIGH);
         channel2.setDescription("Channel for the Max Priority Notifications for ScheduleManager");
 
         NotificationManager notificationManager =
@@ -85,24 +86,47 @@ public class WebViewService extends Service {
         notificationManager.createNotificationChannel(channel);
         notificationManager.createNotificationChannel(channel2);
 
+        Intent notificationIntent = new Intent(this,MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.context,"maxPriority")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setOngoing(true)
                 .setContentTitle("Schedule Manager")
                 .setContentText("Schedule Manager is running in background!")
+                .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
-        NotificationManagerCompat notificationManagerComp = NotificationManagerCompat.from(MainActivity.context);
-        notificationManagerComp.notify(1, builder.build());
+        startForeground(1,builder.build());
         return START_STICKY;
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        PendingIntent service = PendingIntent.getService(
+                getApplicationContext(),
+                1001,
+                new Intent(getApplicationContext(), WebViewService.class),
+                PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, service);
+
+        return false;
+    }
+
+    @Override
     public void onTaskRemoved(Intent rootIntent) {
-
-        //When remove app from background then start it again
-        startService(new Intent(this, WebViewService.class));
-
         super.onTaskRemoved(rootIntent);
+
+        PendingIntent service = PendingIntent.getService(
+                getApplicationContext(),
+                1001,
+                new Intent(getApplicationContext(), WebViewService.class),
+                PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, service);
     }
 }

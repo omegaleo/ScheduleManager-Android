@@ -3,6 +3,8 @@ package pt.omegaleo.schedulemanager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.TypefaceCompat;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.mWebView);
         context = this;
 
-        startService(new Intent(this,WebViewService.class));
+        Intent service = new Intent(this,WebViewService.class);
+
+        startService(service);
+
+
+
 
         mWebView.setWebViewClient(new WebViewClient());
 

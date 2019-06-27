@@ -27,6 +27,7 @@ public class WebAppInterface {
                 .setContentTitle("Schedule Manager")
                 .setContentText(msg)
                 .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
