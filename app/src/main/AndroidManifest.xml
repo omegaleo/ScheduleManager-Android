@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,7 +29,22 @@
         <service android:name=".WebViewService"
             android:enabled="true"
             android:stopWithTask="false"
-            android:exported="true"/>
+            android:exported="true"
+            android:process="pt.omegaleo.schedulemanager"/>
+
+        <receiver
+            android:name="SensorRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped"
+            android:process="pt.omegaleo.schedulemanager">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+                <action android:name="pt.omegaleo.schedulemanager.WebViewService"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 

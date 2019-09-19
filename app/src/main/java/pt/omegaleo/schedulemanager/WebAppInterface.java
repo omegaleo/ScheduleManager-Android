@@ -11,6 +11,9 @@ import android.webkit.JavascriptInterface;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.util.Date;
+import java.util.Random;
+
 public class WebAppInterface {
 
     Context context;
@@ -31,7 +34,9 @@ public class WebAppInterface {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
 
+        int m =  (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
         NotificationManagerCompat notificationManagerComp = NotificationManagerCompat.from(context);
-        notificationManagerComp.notify(1, notificationBuilder.build());
+        notificationManagerComp.notify(m, notificationBuilder.build());
     }
 }

@@ -77,7 +77,7 @@ public class WebViewService extends Service {
 
         NotificationChannel channel2 = new NotificationChannel("maxPriority",
                 "ScheduleManager",
-                NotificationManager.IMPORTANCE_HIGH);
+                NotificationManager.IMPORTANCE_DEFAULT);
         channel2.setDescription("Channel for the Max Priority Notifications for ScheduleManager");
 
         NotificationManager notificationManager =
@@ -99,7 +99,10 @@ public class WebViewService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         startForeground(1,builder.build());
-        return START_STICKY;
+
+
+        flags = START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -129,4 +132,24 @@ public class WebViewService extends Service {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, service);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        PendingIntent service = PendingIntent.getService(
+                getApplicationContext(),
+                1001,
+                new Intent(getApplicationContext(), WebViewService.class),
+                PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, 1000, service);
+
+        Intent broadcastIntent = new Intent(MainActivity.context, SensorRestarterBroadcastReceiver.class);
+
+        sendBroadcast(broadcastIntent);
+    }
+
+
 }
